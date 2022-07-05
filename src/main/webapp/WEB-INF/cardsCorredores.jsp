@@ -6,19 +6,19 @@
         <div class="card">
             
             <c:choose>
-                <c:when test="${corredor.img_corredor!=null}">
-                    <img src="img/corredor-abstracto.jpg" alt="${corredor.nom_corredor}" />
+                <c:when test="${empty corredor.img_corredor}">
+                    <img src="img/corredor-abstracto.jpg" alt="${corredor.nombreCompleto}" />
                 </c:when>
                 <c:otherwise>
-                    <img src="${corredor.img_corredor}" alt="${corredor.nom_corredor}" />
+                    <img src="${corredor.img_corredor}" alt="${corredor.nombreCompleto}" />
                 </c:otherwise>
             </c:choose>
             
             
             <div class="card-body">
-                <h4 class="card-title">${corredor.nom_corredor}</h4>
-                <p>Carreras: xx</p>
-                <p>Velocidad Promedio: yyKm/h</p>
+                <h4 class="card-title">${corredor.nombreCompleto}</h4>
+                <p>Carreras: ${corredor.q_carreras}</p>
+                <p>Velocidad Promedio: ${corredor.vel_promedio}Km/h</p>
                 <a href="">Detalle de carreras</a>
             </div>
 
