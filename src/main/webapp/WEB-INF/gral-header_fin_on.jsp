@@ -20,8 +20,8 @@
                             <input type="text" class="form-control" name="ape_corredor" id="ape_corredor" required">
 
                             <label for="input_img_corredor" class="form-label">Foto de perfil</label>
-                            <input type="file" class="form-control" id="input_img_corredor" name="input_img_corredor">
-                            <input type="hidden" id="img_corredor" name="img_corredor">
+                            <input type="file" class="form-control" id="input_img_corredor0" name="input_img_corredor" onChange="impFoto(0)">
+                            <input type="hidden" id="img_corredor0" name="img_corredor">
 
                             <input type="hidden" name="accion" id="accion" value="newCorredor">
                         </div>
@@ -35,10 +35,6 @@
 
                 </div>
               </div>
-              <script src="${pageContext.request.contextPath}/js\fotobase64.js"></script>
             </div>
-            
-            
         </div>
-
 </nav>

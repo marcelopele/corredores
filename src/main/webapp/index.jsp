@@ -2,9 +2,9 @@
 <!DOCTYPE HTML PUBLIC>
 <html>
     <jsp:include page="WEB-INF/gral-head.jsp"/>
-    <body>
+    <body class="body_ini">
         <jsp:include page="WEB-INF/gral-header_ini.jsp"/>
         <jsp:include page="WEB-INF/gral-header_fin_off.jsp"/>
-        <h1>Hello World!</h1>
+        
     </body>
 </html>

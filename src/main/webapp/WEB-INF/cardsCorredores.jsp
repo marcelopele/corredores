@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <h3>Listado de Corredores:</h3>
+
 <c:forEach items="${cardsCorredores}" var="corredor">  
                         
     <div class="col">
@@ -43,11 +44,11 @@
                                         <label for="nom_corredor" class="form-label">Nombre</label>
                                         <input type="text" class="form-control" id="nom_corredor" name="nom_corredor" required value="${corredor.nom_corredor}">
                                         <label for="lname_user" class="form-label">Apellido</label>
-                                        <input type="text" class="form-control" name="ape_corredor" id="ape_corredor" required" value="${corredor.ape_corredor}">
+                                        <input type="text" class="form-control" name="ape_corredor" id="ape_corredor" required value="${corredor.ape_corredor}">
 
                                         <label for="input_img_corredor" class="form-label">Foto de perfil</label>
-                                        <input type="file" class="form-control" id="input_img_corredor" name="input_img_corredor">
-                                        <input type="hidden" id="img_corredor" name="img_corredor" value="${corredor.img_corredor}">
+                                        <input type="file" class="form-control" id="input_img_corredor${corredor.id_corredor}" name="input_img_corredor" onChange="impFoto(${corredor.id_corredor})">
+                                        <input type="hidden" id="img_corredor${corredor.id_corredor}" name="img_corredor" value="${corredor.img_corredor}">
 
                                         <input type="hidden" name="id_corredor" id="id_corredor" value="${corredor.id_corredor}">
                                         <input type="hidden" name="accion" id="accion" value="updCorredor">
@@ -63,7 +64,6 @@
                             </div>
                           </div>
                         </div>
-
                         
                     </div>
                     <div class="col-6">
@@ -100,7 +100,6 @@
                           </div>
                         </div>
 
-                        
                     </div>
                 </div>
             </div>

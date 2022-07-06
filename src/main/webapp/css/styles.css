@@ -1,5 +1,19 @@
+nav.tit h1{
+    color:gold;
+    font-size: 2rem;
+}
+
+.body_ini{
+    background-image: url('../img/run_background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .btn-marg{
     margin:4px;
+}
+.row-marg{
+    margin:0.5%
 }
 .card p{
     margin: 0;

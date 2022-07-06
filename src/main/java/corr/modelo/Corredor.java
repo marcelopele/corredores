@@ -10,6 +10,13 @@ public class Corredor {
     
     public Corredor(){}
 
+    public Corredor(int id_corredor, String nom_corredor, String ape_corredor, String img_corredor) {
+        setId_corredor(id_corredor);
+        setNom_corredor(nom_corredor);
+        setApe_corredor(ape_corredor);
+        setImg_corredor(img_corredor);
+    }
+
     public Corredor(int id_corredor, String nom_corredor, String ape_corredor, String img_corredor, int q_carreras, double vel_promedio) {
         setId_corredor(id_corredor);
         setNom_corredor(nom_corredor);

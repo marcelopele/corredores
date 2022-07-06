@@ -8,7 +8,7 @@
         
         <c:choose >
             <c:when test="${cardsCorredores != null && !lista.isEmpty()}">
-                <div class="row g-4 mt-3 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5" data-masonry='{"percentPosition": true }' >
+                <div class="row g-4 mt-3 row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 row-marg" data-masonry='{"percentPosition": true }'>
                     <jsp:include page="WEB-INF/cardsCorredores.jsp"/>
                 </div>
             </c:when>
