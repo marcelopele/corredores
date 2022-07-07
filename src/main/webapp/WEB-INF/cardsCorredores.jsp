@@ -20,9 +20,8 @@
                 <h4 class="card-title">${corredor.nombreCompleto}</h4>
                 <p>Carreras: ${corredor.q_carreras}</p>
                 <p>Velocidad Promedio: ${corredor.vel_promedio}Km/h</p>
-                <a href="">Detalle de carreras</a>
+                <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#modal_Carrerasb" onClick="getCarreras('${pageContext.request.contextPath}/app',${corredor.id_corredor})">Lista de carreras</button>
             </div>
-
 
             <div class="card-footer border-top-0">
                 <div class="row">
@@ -56,8 +55,8 @@
 
                                     <!-- Modal footer -->
                                     <div class="modal-footer">
-                                        <button type="reset" class="btn btn-info">Limpiar</button>
                                         <button type="submit" class="btn btn-success">Confirmar</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                                     </div>
                                 </form>
 
@@ -93,6 +92,7 @@
                                     <!-- Modal footer -->
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-success">Confirmar</button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                                     </div>
                                 </form>
 
@@ -107,5 +107,4 @@
     </div>
                         
 </c:forEach>
-
 

@@ -18,3 +18,63 @@ nav.tit h1{
 .card p{
     margin: 0;
 }
+.btn-link{
+    margin: 0;
+    padding: 0;
+}
+
+
+div.lc_i input, div.lc_n input, div.lc_m input, div.lc_b input{
+    border: groove;
+    border-width:thin;
+    width: 100%; 
+    padding: 0;
+    margin: 2px 0 2px 0;
+}
+div.lc_i input[type=number], div.lc_n input[type=number], div.lc_m input[type=number], div.lc_b input[type=number]{
+    text-align: right; 
+}
+div.lc_i input[type=text], div.lc_n input[type=text], div.lc_m input[type=text], div.lc_b input[type=text]{
+    text-align: left; 
+}
+div.lc_i input[type=date], div.lc_n input[type=date], div.lc_m input[type=date], div.lc_b input[type=date]{
+    text-align: center; 
+}
+div.lc_i img, div.lc_n img, div.lc_m img, div.lc_b img{
+    width: 1rem;
+}
+
+
+div.lc_i div.lc_i input{
+    background-color:#ffffff;
+}
+div.lc_i div.lc_i img.btn_mc, div.lc_i div.lc_i img.btn_bc{
+    display: none;
+}
+
+
+div.lc_n div.lc_i input, div.lc_m div.lc_i input, div.lc_b div.lc_i input{
+    background-color:#cccccc;
+}
+div.lc_n div.lc_i img, div.lc_m div.lc_i img, div.lc_b div.lc_i img{
+    display:none;
+}
+div.lc_n input{
+    background-color:#ffff99;
+}
+
+
+
+div.lc_b div.lc_b input{
+    background-color:#ff9999;
+}
+div.lc_b div.lc_b img.btn_in, div.lc_b div.lc_b img.btn_mc{
+    display: none;
+}
+
+div.lc_m div.lc_m input{
+    background-color:#cccc00;
+}
+div.lc_m div.lc_m img.btn_in, div.lc_m div.lc_m img.btn_bc{
+    display: none;
+}

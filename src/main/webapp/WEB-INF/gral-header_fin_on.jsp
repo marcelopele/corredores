@@ -1,6 +1,16 @@
             <button type="button" class="btn btn-primary btn-sm btn-marg" onclick="location.href ='${pageContext.request.contextPath}'">Salir</button>
             <button type="button" class="btn btn-primary btn-sm btn-marg" data-bs-toggle="modal" data-bs-target="#newCorredor">Nuevo Corredor</button>
 
+            
+            <div class="modal" id="modal_Carrerasb">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content" id="modal_Carreras">
+
+                  </div>
+                </div>
+            </div>
+            
+            
             <div class="modal" id="newCorredor">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -28,8 +38,9 @@
 
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="reset" class="btn btn-info">Limpiar</button>
+                            <button type="reset" class="btn btn-outline-primary">Limpiar</button>
                             <button type="submit" class="btn btn-success">Confirmar</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </form>
 

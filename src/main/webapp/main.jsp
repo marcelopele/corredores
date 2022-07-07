@@ -15,11 +15,12 @@
             <c:otherwise>
                 <div class="row mt-4">
                     <div class="col-12">
-                        <p class="display-5 text-danger">Ooops! Parece que no hay corredores...</p>
+                        <p class="display-5 text-danger">Aun no hay corredores ...registra al primero!</p>
                     </div>
                 </div>
             </c:otherwise>
         </c:choose>
         
+        <jsp:include page="WEB-INF/gral-footer.jsp"/>
     </body>
 </html>

@@ -1,6 +1,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
         <title>Corredores</title>
+        
+        <link rel="icon" type="image/x-icon" href="img/corredor-abstracto.ico" />
         
         <!-- Bootstrap CSS y JavaScript-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">

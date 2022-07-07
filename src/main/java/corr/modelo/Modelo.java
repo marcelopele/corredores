@@ -1,6 +1,7 @@
 package corr.modelo;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,9 +19,9 @@ public class Modelo {
             corredores = new ArrayList();
             
             Connection cnn = cn.conectar();
-            pst = cnn.prepareStatement("SELECT a.id_corredor, a.nom_corredor, a.ape_corredor, a.img_corredor, Count(b.id_carrera) AS q_carreras, Sum(b.km) AS sumKm, Sum(b.min) AS sumMin, km/(min/60) AS vel_promedio\n" +
+            pst = cnn.prepareStatement("SELECT a.id_corredor, a.nom_corredor, a.ape_corredor, a.img_corredor, Count(b.id_carrera) AS q_carreras, Sum(b.km) AS sumKm, Sum(b.min) AS sumMin, Sum(b.km)/(Sum(b.min)/60) AS vel_promedio\n" +
 "FROM corredores AS a LEFT JOIN carreras AS b ON a.id_corredor = b.id_corredor\n" +
-"GROUP BY a.id_corredor, a.nom_corredor, a.ape_corredor, a.img_corredor, vel_promedio");
+"GROUP BY a.id_corredor, a.nom_corredor, a.ape_corredor, a.img_corredor");
             rs = pst.executeQuery();
             
             while(rs.next()){
@@ -29,13 +30,14 @@ public class Modelo {
                 String ape_corredor=rs.getString("ape_corredor");
                 String img_corredor=rs.getString("img_corredor");
                 int q_carreras=rs.getInt("q_carreras");
-                double vel_corredor=rs.getDouble("vel_promedio");
+                double vel_corredor_sin_redondear=rs.getDouble("vel_promedio");
+                double vel_corredor=Math.round(vel_corredor_sin_redondear*100.0)/100.0;
 
                 corredores.add(new Corredor(id_corredor, nom_corredor, ape_corredor, img_corredor, q_carreras, vel_corredor));
             }
             
             return corredores;
-    }
+        }
         
         public Corredor getCorredor(int id_corredor) throws SQLException, ClassNotFoundException{
             Connection cnn = cn.conectar();
@@ -87,4 +89,53 @@ public class Modelo {
             pst.executeUpdate();
 
         }
+        
+        public List<Carrera> getCarreras(int id_corredor) throws SQLException, ClassNotFoundException {
+            List<Carrera> carreras;
+            carreras = new ArrayList();
+            
+            Connection cnn = cn.conectar();
+            pst = cnn.prepareStatement("SELECT carreras.id_carrera, carreras.tit_carrera, carreras.fh_carrera, carreras.km, carreras.min, carreras.id_corredor FROM carreras\n WHERE carreras.id_corredor="+id_corredor);
+            rs = pst.executeQuery();
+            
+            while(rs.next()){
+                int id_carrera=rs.getInt("id_carrera");
+                String tit_carrera=rs.getString("tit_carrera");
+                String fh_carrera=rs.getString("fh_carrera");
+                double km=rs.getDouble("km");
+                double min=rs.getDouble("min");
+
+                carreras.add(new Carrera(id_carrera, tit_carrera, fh_carrera, km, min, id_corredor));
+            }
+            
+            return carreras;
+        }
+        
+        public void addCarrera(Carrera carrera) throws SQLException, ClassNotFoundException{
+            Connection cnn = cn.conectar();
+            
+            String tit_carrera = carrera.getTit_carrera();
+            String fh_carrera = carrera.getFh_carrera();
+            double km = carrera.getKm();
+            double min = carrera.getMin();
+            int id_corredor = carrera.getId_corredor();
+
+            pst = cnn.prepareStatement("INSERT INTO `carreras`(`tit_carrera`, `fh_carrera`, `km`, `min`, `id_corredor`) VALUES (?,?,?,?,?)");
+            pst.setString(1, tit_carrera);
+            pst.setString(2, fh_carrera);
+            pst.setDouble(3, km);
+            pst.setDouble(4, min);
+            pst.setInt(5, id_corredor);
+            pst.executeUpdate();
+
+        }
+        
+        public void delCarrera(int id_carrera) throws SQLException, ClassNotFoundException{
+            Connection cnn = cn.conectar();
+
+            pst = cnn.prepareStatement("DELETE FROM `carreras` WHERE id_carrera="+id_carrera);
+            pst.executeUpdate();
+
+        }
+        
 }
