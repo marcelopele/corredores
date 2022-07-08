@@ -46,6 +46,16 @@
                                         <input type="text" class="form-control" name="ape_corredor" id="ape_corredor" required value="${corredor.ape_corredor}">
 
                                         <label for="input_img_corredor" class="form-label">Foto de perfil</label>
+                                        
+                                        <c:choose>
+                                            <c:when test="${empty corredor.img_corredor}">
+                                                <img src="img/corredor-abstracto.jpg" alt="${corredor.nombreCompleto}" id="img_corredor2_${corredor.id_corredor}"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="${corredor.img_corredor}" alt="${corredor.nombreCompleto}" id="img_corredor2_${corredor.id_corredor}"/>
+                                            </c:otherwise>
+                                        </c:choose>
+
                                         <input type="file" class="form-control" id="input_img_corredor${corredor.id_corredor}" name="input_img_corredor" onChange="impFoto(${corredor.id_corredor})">
                                         <input type="hidden" id="img_corredor${corredor.id_corredor}" name="img_corredor" value="${corredor.img_corredor}">
 

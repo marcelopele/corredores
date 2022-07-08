@@ -23,6 +23,13 @@ nav.tit h1{
     padding: 0;
 }
 
+.col-1, .col-2, .col-4, .col-6, .col-12{
+    padding: 0% 1%;
+}
+
+.modal img{
+    width: 100%;
+}
 
 div.lc_i input, div.lc_n input, div.lc_m input, div.lc_b input{
     border: groove;

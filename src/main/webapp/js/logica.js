@@ -2,12 +2,14 @@
 function impFoto(id_corredor){
     idInput="input_img_corredor"+id_corredor;
     idOutput="img_corredor"+id_corredor;
+    idOutput2="img_corredor2_"+id_corredor;
     
     value = document.getElementById(idInput).files[0];
     var reader = new FileReader();
     reader.onloadend = function (e) {
         fotoCodif = `data:${value.type};base64,`+e.target.result.split("base64,")[1];
         document.getElementById(idOutput).value = fotoCodif || "";
+        document.getElementById(idOutput2).src = fotoCodif || "";
     };
     reader.readAsDataURL(value);
 }
