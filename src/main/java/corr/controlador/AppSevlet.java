@@ -176,6 +176,36 @@ public class AppSevlet extends HttpServlet {
                 doGet(request, response);
                 break;
                 
+                case "updCarrera":
+                    carrera = new Carrera();
+                    carrera.setId_carrera(Integer.parseInt(request.getParameter("id_carrera")));
+                    carrera.setTit_carrera(request.getParameter("tit_carrera"));
+                    carrera.setFh_carrera(request.getParameter("fh_carrera"));
+                    carrera.setKm(Double.parseDouble(request.getParameter("km")));
+                    carrera.setMin(Double.parseDouble(request.getParameter("min")));
+                    carrera.setId_corredor(Integer.parseInt(request.getParameter("id_corredor")));
+                    
+                    id_carrera=carrera.getId_carrera();
+                    id_corredor=carrera.getId_corredor();
+                    double min=carrera.getMin();
+                    double km=carrera.getKm();
+                    String fh_carrera=carrera.getFh_carrera();
+                    String tit_carrera = carrera.getTit_carrera();
+                    
+                    try {
+                        m.updCarrera(carrera);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }                
+
+                    /*request.setAttribute("msgError", query);
+                    request.getRequestDispatcher("logErr.jsp").forward(request, response);*/
+                    request.setAttribute("accion2", "getCarreras");
+                    doGet(request, response);
+                    break;
+                
             default:
                 request.getRequestDispatcher("index.jsp").forward(request, response);
                 break;

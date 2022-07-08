@@ -78,3 +78,7 @@ div.lc_m div.lc_m input{
 div.lc_m div.lc_m img.btn_in, div.lc_m div.lc_m img.btn_bc{
     display: none;
 }
+
+div.lc_i input, div.lc_b input{
+    pointer-events: none; 
+}

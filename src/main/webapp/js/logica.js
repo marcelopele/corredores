@@ -97,9 +97,9 @@ function iniciarBorrado_Fila_Carrera_Cancel(id_corredor, url){
     getCarreras(url, id_corredor);
 }
 
-function iniciarBorrado_Fila_Carrera_Confirm(id_carrera, url){
+function iniciarBorrado_Fila_Carrera_Confirm(id_corredor,id_carrera, url){
     //envío para delete de carrera:
-    url = url+'?accion=delCarrera&id_carrera='+id_carrera;
+    url = url+'?accion=delCarrera&id_carrera='+id_carrera+'&id_corredor='+id_corredor;
     var http = new XMLHttpRequest();
     http.open("POST", url);
     http.onload = function() {
@@ -126,7 +126,25 @@ function iniciarModif_Fila_Carrera_Cancel(id_corredor, url){
 }
 
 function iniciarModif_Fila_Carrera_Confirm(id_corredor, id_carrera, url){
-    alert("modificación pendiente");
-    getCarreras(url, id_corredor);
+    
+    //validación de campos completos
+    tit_carrera=document.getElementById("tit_carrera_"+id_carrera).value;
+    fh_carrera=document.getElementById("fh_carrera_"+id_carrera).value;
+    km=document.getElementById("km_"+id_carrera).value;
+    min=document.getElementById("min_"+id_carrera).value;
+
+    if(tit_carrera==""||fh_carrera==""||km==""||min==""){
+        alert("Completar datos");
+    }else{
+        //envío para insert de nueva carrera:
+        url = url+'?accion=updCarrera&id_corredor='+id_corredor+'&id_carrera='+id_carrera+'&tit_carrera='+tit_carrera+'&fh_carrera='+fh_carrera+'&km='+km+'&min='+min;
+        var http = new XMLHttpRequest();
+        http.open("POST", url);
+        http.onload = function() {
+          document.getElementById("modal_Carreras").innerHTML = 
+          this.responseText;
+        };
+        http.send();
+    }
 }
 

@@ -138,4 +138,19 @@ public class Modelo {
 
         }
         
+        public void updCarrera(Carrera carrera) throws SQLException, ClassNotFoundException{
+            Connection cnn = cn.conectar();
+            int id_carrera = carrera.getId_carrera();
+            String tit_carrera = carrera.getTit_carrera();
+            String fh_carrera = carrera.getFh_carrera();
+            double km = carrera.getKm();
+            double min = carrera.getMin();
+            int id_corredor = carrera.getId_corredor();
+
+            pst = cnn.prepareStatement("UPDATE `carreras` SET `tit_carrera`='"+tit_carrera+"',`fh_carrera`='"+fh_carrera+"',`km`="+km+",`min`="+min+",`id_corredor`="+id_corredor+" WHERE id_carrera="+id_carrera);
+            pst.executeUpdate();
+
+        }
+        
+        
 }

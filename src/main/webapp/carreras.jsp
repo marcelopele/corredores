@@ -31,21 +31,21 @@
                     <input type="number" value="${carrera.id_carrera}" readonly disabled" id="id_carrera_${carrera.id_carrera}">
                 </div>
                 <div class="col-4">
-                    <input type="text" value="${carrera.tit_carrera}" readonly id="tit_carrera_${carrera.id_carrera}">
+                    <input type="text" value="${carrera.tit_carrera}" id="tit_carrera_${carrera.id_carrera}">
                 </div>
                 <div class="col-2">
-                    <input type="date" value="${carrera.fh_carrera}" readonly id="fh_carrera_${carrera.id_carrera}">
+                    <input type="date" value="${carrera.fh_carrera}" id="fh_carrera_${carrera.id_carrera}">
                 </div>
                 <div class="col-2">
-                    <input type="number" value="${carrera.km}" readonly id="km_${carrera.id_carrera}">
+                    <input type="number" value="${carrera.km}" id="km_${carrera.id_carrera}">
                 </div>
                 <div class="col-2">
-                    <input type="number" value="${carrera.min}" readonly id="min_${carrera.id_carrera}">
+                    <input type="number" value="${carrera.min}" id="min_${carrera.id_carrera}">
                 </div>
                 <div class="col-1">
                     <img class="btn_in" src="img/but_edit.png" alt="Modificar" onclick="iniciarModif_Fila_Carrera(${cardCorredor.id_corredor}, ${carrera.id_carrera},'${pageContext.request.contextPath}/app')"/>    <!-- que se pinte de amarillo la fila, desbloquear inputs y cambiar íconos a cancelar/confirmar -->
                     <img class="btn_in"  src="img/but_menos.png" alt="Borrar" onclick="iniciarBorrado_Fila_Carrera(${cardCorredor.id_corredor}, ${carrera.id_carrera},'${pageContext.request.contextPath}/app')"/>         <!-- que se pinte de rojo la fila y cambiar íconos a cancelar/confirmar -->
-                    <img class="btn_bc" src="img/but_confirm.png" alt="Confirmar" onclick="iniciarBorrado_Fila_Carrera_Confirm(${carrera.id_carrera},'${pageContext.request.contextPath}/app')"/>
+                    <img class="btn_bc" src="img/but_confirm.png" alt="Confirmar" onclick="iniciarBorrado_Fila_Carrera_Confirm(${cardCorredor.id_corredor}, ${carrera.id_carrera},'${pageContext.request.contextPath}/app')"/>
                     <img class="btn_bc"  src="img/but_cancel.png" alt="Cancelar" onclick="iniciarBorrado_Fila_Carrera_Cancel(${cardCorredor.id_corredor}, '${pageContext.request.contextPath}/app')"/>
                     <img class="btn_mc" src="img/but_confirm.png" alt="Confirmar" onclick="iniciarModif_Fila_Carrera_Confirm(${cardCorredor.id_corredor}, ${carrera.id_carrera},'${pageContext.request.contextPath}/app')"/>
                     <img class="btn_mc"  src="img/but_cancel.png" alt="Cancelar" onclick="iniciarModif_Fila_Carrera_Cancel(${cardCorredor.id_corredor}, '${pageContext.request.contextPath}/app')"/>
