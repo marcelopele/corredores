@@ -5,11 +5,6 @@ import corr.modelo.Modelo;
 import corr.modelo.Corredor;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -28,8 +23,6 @@ public class AppSevlet extends HttpServlet {
         throws ServletException, IOException {
         
         Modelo m = new Modelo();
-        List<Corredor> corredores;
-        corredores = new ArrayList();
 
         String accion = request.getParameter("accion");
         Object accion2 = request.getAttribute("accion2");
@@ -39,34 +32,24 @@ public class AppSevlet extends HttpServlet {
         switch (accion) {
                 
             case "getCarreras":
-                try {
-                    request.setAttribute("cardCorredor", m.getCorredor(Integer.parseInt(request.getParameter("id_corredor"))));
-                } catch (SQLException ex) {
-                    request.setAttribute("cardCorredor", "ERROR: "+ex);
-                } catch (ClassNotFoundException ex) {
-                    request.setAttribute("cardCorredor", "ERROR: "+ex);
-                }
+                request.setAttribute("cardCorredor", m.getCorredor(Integer.parseInt(request.getParameter("id_corredor"))));
                 
                 try {
                     request.setAttribute("listCarreras", m.getCarreras(Integer.parseInt(request.getParameter("id_corredor"))));
-                } catch (SQLException ex) {
-                    request.setAttribute("listCarreras", "ERROR: "+ex);
-                } catch (ClassNotFoundException ex) {
-                    request.setAttribute("listCarreras", "ERROR: "+ex);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    request.setAttribute("ControlERR", "ERROR: "+ex);
                 }
                 
                 request.getRequestDispatcher("carreras.jsp").forward(request, response);
                 break;
-            
+
             default: 
                 try {
                     request.setAttribute("cardsCorredores", m.getCorredores());
-                } catch (SQLException ex) {
-                    request.setAttribute("cardsCorredores", "ERROR: "+ex);
-                } catch (ClassNotFoundException ex) {
-                    request.setAttribute("cardsCorredores", "ERROR: "+ex);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    request.setAttribute("ControlERR", "ERROR: "+ex);
                 }
-                request.setAttribute("Mensaje", "el mensaje es:"+accion);
+                request.setAttribute("Mensaje", accion);
                 request.getRequestDispatcher("main.jsp").forward(request, response);
 
                 break;                
@@ -90,56 +73,27 @@ public class AppSevlet extends HttpServlet {
                 
             case "newCorredor":
                 corredor = new Corredor();
-                corredor.setNom_corredor(request.getParameter("nom_corredor"));
-                corredor.setApe_corredor(request.getParameter("ape_corredor"));
-                corredor.setImg_corredor(request.getParameter("img_corredor"));
-                
-                try {
-                    m.addCorredor(corredor);
-                } catch (SQLException ex) {
-                    Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
+                cargarCorredorSegunParams(corredor,request);
+                m.addCorredor(corredor);
                 doGet(request, response);
                 break;
-            
-            case "updCorredor":
-                /* Asignación de valores al objeto */
-                corredor = new Corredor();
-                corredor.setId_corredor(Integer.parseInt(request.getParameter("id_corredor")));
-                corredor.setNom_corredor(request.getParameter("nom_corredor"));
-                corredor.setApe_corredor(request.getParameter("ape_corredor"));
-                corredor.setImg_corredor(request.getParameter("img_corredor"));
-                
-                try {
-                    /* Actualizaicón del modelo */
-                    m.updCorredor(corredor);
-                } catch (SQLException ex) {
-                    Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
 
+            case "updCorredor":
+                corredor = new Corredor();
+                cargarCorredorSegunParams(corredor,request);
+                m.updCorredor(corredor);
                 doGet(request, response);
                 break;
-                
+
             case "delCorredor":
                 id = Integer.parseInt(request.getParameter("id_corredor"));
                 
-                try {
-                    /* Actualizaicón del modelo */
-                    m.delCorredor(id);
-                } catch (SQLException ex) {
-                    Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                /* Actualizaicón del modelo */
+                m.delCorredor(id);
 
                 doGet(request, response);
                 break;
-                
+
             case "newCarrera":
                 carrera = new Carrera();
                 carrera.setTit_carrera(request.getParameter("tit_carrera"));
@@ -150,9 +104,7 @@ public class AppSevlet extends HttpServlet {
                         
                 try {
                     m.addCarrera(carrera);
-                } catch (SQLException ex) {
-                    Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
+                } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
                 }                
                 
@@ -166,16 +118,14 @@ public class AppSevlet extends HttpServlet {
                 try {
                     /* Actualizaicón del modelo */
                     m.delCarrera(id);
-                } catch (SQLException ex) {
-                    Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
+                } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
                 request.setAttribute("accion2", "getCarreras");
                 doGet(request, response);
                 break;
-                
+
                 case "updCarrera":
                     carrera = new Carrera();
                     carrera.setId_carrera(Integer.parseInt(request.getParameter("id_carrera")));
@@ -194,9 +144,7 @@ public class AppSevlet extends HttpServlet {
                     
                     try {
                         m.updCarrera(carrera);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ClassNotFoundException ex) {
+                    } catch (SQLException | ClassNotFoundException ex) {
                         Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
                     }                
 
@@ -205,10 +153,22 @@ public class AppSevlet extends HttpServlet {
                     request.setAttribute("accion2", "getCarreras");
                     doGet(request, response);
                     break;
-                
+
             default:
                 request.getRequestDispatcher("index.jsp").forward(request, response);
                 break;
         }
     }
+    
+    
+
+    private void cargarCorredorSegunParams(Corredor corredor, HttpServletRequest request) {
+        if(request.getParameter("id_corredor")!=null){
+            corredor.setId_corredor(Integer.parseInt(request.getParameter("id_corredor")));
+        }
+        corredor.setNom_corredor(request.getParameter("nom_corredor"));
+        corredor.setApe_corredor(request.getParameter("ape_corredor"));
+        corredor.setImg_corredor(request.getParameter("img_corredor"));
+    }
+    
 }

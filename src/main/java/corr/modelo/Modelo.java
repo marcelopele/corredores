@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Modelo {
     Corredor corredor = null;
@@ -72,50 +70,58 @@ public class Modelo {
             } catch (SQLException | ClassNotFoundException ex) {
                 throw new RuntimeException("Error de SQL",ex);
             }
-
             return corredor;
         }
         
-        public void addCorredor(Corredor corredor) throws SQLException, ClassNotFoundException{
-            Connection cnn = cn.conectar();
-            
-            String nom_corredor = corredor.getNom_corredor();
-            String ape_corredor = corredor.getApe_corredor();
-            String img_corredor = corredor.getImg_corredor();
+        public void addCorredor(Corredor corredor) {
+            try(Connection cnn = cn.conectar();
+                PreparedStatement pst = cnn.prepareStatement(QUERY_addCorredor);){
+                
+                String nom_corredor = corredor.getNom_corredor();
+                String ape_corredor = corredor.getApe_corredor();
+                String img_corredor = corredor.getImg_corredor();
 
-            pst = cnn.prepareStatement(QUERY_addCorredor);
-            pst.setString(1, nom_corredor);
-            pst.setString(2, ape_corredor);
-            pst.setString(3, img_corredor);
-            pst.executeUpdate();
-
+                pst.setString(1, nom_corredor);
+                pst.setString(2, ape_corredor);
+                pst.setString(3, img_corredor);
+                pst.executeUpdate();
+                
+            } catch (SQLException | ClassNotFoundException ex) {
+                throw new RuntimeException("Error de SQL",ex);
+            }
         }
         
-        public void updCorredor(Corredor corredor) throws SQLException, ClassNotFoundException{
-            Connection cnn = cn.conectar();
-            
-            int id_corredor = corredor.getId_corredor();
-            String nom_corredor = corredor.getNom_corredor();
-            String ape_corredor = corredor.getApe_corredor();
-            String img_corredor = corredor.getImg_corredor();
+        public void updCorredor(Corredor corredor) {
+            try(Connection cnn = cn.conectar();
+                PreparedStatement pst = cnn.prepareStatement(QUERY_updCorredor);){
+                
+                int id_corredor = corredor.getId_corredor();
+                String nom_corredor = corredor.getNom_corredor();
+                String ape_corredor = corredor.getApe_corredor();
+                String img_corredor = corredor.getImg_corredor();
 
-            pst = cnn.prepareStatement(QUERY_updCorredor);
-            pst.setString(1, nom_corredor);
-            pst.setString(2, ape_corredor);
-            pst.setString(3, img_corredor);
-            pst.setInt(4, id_corredor);
+                pst.setString(1, nom_corredor);
+                pst.setString(2, ape_corredor);
+                pst.setString(3, img_corredor);
+                pst.setInt(4, id_corredor);
 
-            pst.executeUpdate();
-
+                pst.executeUpdate();
+                
+            } catch (SQLException | ClassNotFoundException ex) {
+                throw new RuntimeException("Error de SQL",ex);
+            }
         }
         
-        public void delCorredor(int id_corredor) throws SQLException, ClassNotFoundException{
-            Connection cnn = cn.conectar();
-
-            pst = cnn.prepareStatement(QUERY_delCorredor);
-            pst.setInt(1, id_corredor);
-            pst.executeUpdate();
-
+        public void delCorredor(int id_corredor) {
+            try(Connection cnn = cn.conectar();
+                PreparedStatement pst = cnn.prepareStatement(QUERY_delCorredor);){
+                
+                pst.setInt(1, id_corredor);
+                pst.executeUpdate();
+                
+            } catch (SQLException | ClassNotFoundException ex) {
+                throw new RuntimeException("Error de SQL",ex);
+            }
         }
         
         public List<Carrera> getCarreras(int id_corredor) throws SQLException, ClassNotFoundException {
