@@ -33,22 +33,12 @@ public class AppSevlet extends HttpServlet {
                 
             case "getCarreras":
                 request.setAttribute("cardCorredor", m.getCorredor(Integer.parseInt(request.getParameter("id_corredor"))));
-                
-                try {
-                    request.setAttribute("listCarreras", m.getCarreras(Integer.parseInt(request.getParameter("id_corredor"))));
-                } catch (SQLException | ClassNotFoundException ex) {
-                    request.setAttribute("ControlERR", "ERROR: "+ex);
-                }
-                
+                request.setAttribute("listCarreras", m.getCarreras(Integer.parseInt(request.getParameter("id_corredor"))));
                 request.getRequestDispatcher("carreras.jsp").forward(request, response);
                 break;
 
             default: 
-                try {
-                    request.setAttribute("cardsCorredores", m.getCorredores());
-                } catch (SQLException | ClassNotFoundException ex) {
-                    request.setAttribute("ControlERR", "ERROR: "+ex);
-                }
+                request.setAttribute("cardsCorredores", m.getCorredores());
                 request.setAttribute("Mensaje", accion);
                 request.getRequestDispatcher("main.jsp").forward(request, response);
 
@@ -102,11 +92,7 @@ public class AppSevlet extends HttpServlet {
                 carrera.setMin(Double.parseDouble(request.getParameter("min")));
                 carrera.setId_corredor(Integer.parseInt(request.getParameter("id_corredor")));
                         
-                try {
-                    m.addCarrera(carrera);
-                } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
-                }                
+                m.addCarrera(carrera);        
                 
                 request.setAttribute("accion2", "getCarreras");
                 doGet(request, response);
@@ -114,14 +100,7 @@ public class AppSevlet extends HttpServlet {
 
             case "delCarrera":
                 id = Integer.parseInt(request.getParameter("id_carrera"));
-                
-                try {
-                    /* Actualizaicón del modelo */
-                    m.delCarrera(id);
-                } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(AppSevlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
+                m.delCarrera(id);
                 request.setAttribute("accion2", "getCarreras");
                 doGet(request, response);
                 break;

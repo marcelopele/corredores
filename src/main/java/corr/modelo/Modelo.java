@@ -10,8 +10,6 @@ import java.util.List;
 public class Modelo {
     Corredor corredor = null;
     Conexion cn = new Conexion();
-    PreparedStatement pst;
-    ResultSet rs;
     
     private static final String QUERY_getCorredores = "SELECT a.id_corredor, a.nom_corredor, a.ape_corredor, a.img_corredor, Count(b.id_carrera) AS q_carreras, Sum(b.km) AS sumKm, Sum(b.min) AS sumMin, Sum(b.km)/(Sum(b.min)/60) AS vel_promedio FROM corredores AS a LEFT JOIN carreras AS b ON a.id_corredor = b.id_corredor GROUP BY a.id_corredor, a.nom_corredor, a.ape_corredor, a.img_corredor";
     private static final String QUERY_getCorredor = "SELECT * FROM corredores as a WHERE a.id_corredor = ?";
@@ -25,8 +23,7 @@ public class Modelo {
     private static final String QUERY_updCarrera = "UPDATE `carreras` SET `tit_carrera`=?,`fh_carrera`=?,`km`=?,`min`=?,`id_corredor`=? WHERE id_carrera=?";
     
     
-        public List<Corredor> getCorredores() throws SQLException, ClassNotFoundException {
-            
+        public List<Corredor> getCorredores() {
             List<Corredor> corredores = new ArrayList();
             
             try(Connection cnn = cn.conectar();
@@ -45,7 +42,7 @@ public class Modelo {
                     corredores.add(new Corredor(id_corredor, nom_corredor, ape_corredor, img_corredor, q_carreras, vel_corredor));
                 }                
                 
-            }catch(SQLException ex){
+            } catch (SQLException | ClassNotFoundException ex) {
                 throw new RuntimeException("Error de SQL",ex);
             }
             return corredores;
@@ -124,74 +121,87 @@ public class Modelo {
             }
         }
         
-        public List<Carrera> getCarreras(int id_corredor) throws SQLException, ClassNotFoundException {
-            List<Carrera> carreras;
-            carreras = new ArrayList();
+        public List<Carrera> getCarreras(int id_corredor) {
+            List<Carrera> carreras = new ArrayList();
             
-            Connection cnn = cn.conectar();
-            pst = cnn.prepareStatement(QUERY_getCarreras);
-            pst.setInt(1, id_corredor);
-            rs = pst.executeQuery();
-            
-            while(rs.next()){
-                int id_carrera=rs.getInt("id_carrera");
-                String tit_carrera=rs.getString("tit_carrera");
-                String fh_carrera=rs.getString("fh_carrera");
-                double km=rs.getDouble("km");
-                double min=rs.getDouble("min");
+            try(Connection cnn = cn.conectar();
+                PreparedStatement pst = cnn.prepareStatement(QUERY_getCarreras);){
+                
+                pst.setInt(1, id_corredor);
+                try(ResultSet rs = pst.executeQuery();){
+                    while(rs.next()){
+                        int id_carrera=rs.getInt("id_carrera");
+                        String tit_carrera=rs.getString("tit_carrera");
+                        String fh_carrera=rs.getString("fh_carrera");
+                        double km=rs.getDouble("km");
+                        double min=rs.getDouble("min");
 
-                carreras.add(new Carrera(id_carrera, tit_carrera, fh_carrera, km, min, id_corredor));
+                        carreras.add(new Carrera(id_carrera, tit_carrera, fh_carrera, km, min, id_corredor));
+                    }
+                }
+                
+            } catch (SQLException | ClassNotFoundException ex) {
+                throw new RuntimeException("Error de SQL",ex);
             }
-            
             return carreras;
         }
         
-        public void addCarrera(Carrera carrera) throws SQLException, ClassNotFoundException{
-            Connection cnn = cn.conectar();
-            
-            String tit_carrera = carrera.getTit_carrera();
-            String fh_carrera = carrera.getFh_carrera();
-            double km = carrera.getKm();
-            double min = carrera.getMin();
-            int id_corredor = carrera.getId_corredor();
+        public void addCarrera(Carrera carrera) {
+            try(Connection cnn = cn.conectar();
+                PreparedStatement pst = cnn.prepareStatement(QUERY_addCarrera);){
+                
+                String tit_carrera = carrera.getTit_carrera();
+                String fh_carrera = carrera.getFh_carrera();
+                double km = carrera.getKm();
+                double min = carrera.getMin();
+                int id_corredor = carrera.getId_corredor();
 
-            pst = cnn.prepareStatement(QUERY_addCarrera);
-            pst.setString(1, tit_carrera);
-            pst.setString(2, fh_carrera);
-            pst.setDouble(3, km);
-            pst.setDouble(4, min);
-            pst.setInt(5, id_corredor);
-            pst.executeUpdate();
-
+                pst.setString(1, tit_carrera);
+                pst.setString(2, fh_carrera);
+                pst.setDouble(3, km);
+                pst.setDouble(4, min);
+                pst.setInt(5, id_corredor);
+                pst.executeUpdate();
+                
+            } catch (SQLException | ClassNotFoundException ex) {
+                throw new RuntimeException("Error de SQL",ex);
+            }
         }
         
-        public void delCarrera(int id_carrera) throws SQLException, ClassNotFoundException{
-            Connection cnn = cn.conectar();
-
-            pst = cnn.prepareStatement(QUERY_delCarrera);
-            pst.setInt(1, id_carrera);
-            pst.executeUpdate();
-
+        public void delCarrera(int id_carrera) {
+            try(Connection cnn = cn.conectar();
+                PreparedStatement pst = cnn.prepareStatement(QUERY_delCarrera);){
+                
+                pst.setInt(1, id_carrera);
+                pst.executeUpdate();
+                
+            } catch (SQLException | ClassNotFoundException ex) {
+                throw new RuntimeException("Error de SQL",ex);
+            }
         }
         
         public void updCarrera(Carrera carrera) throws SQLException, ClassNotFoundException{
-            Connection cnn = cn.conectar();
-            int id_carrera = carrera.getId_carrera();
-            String tit_carrera = carrera.getTit_carrera();
-            String fh_carrera = carrera.getFh_carrera();
-            double km = carrera.getKm();
-            double min = carrera.getMin();
-            int id_corredor = carrera.getId_corredor();
+            try(Connection cnn = cn.conectar();
+                PreparedStatement pst = cnn.prepareStatement(QUERY_updCarrera);){
+                
+                int id_carrera = carrera.getId_carrera();
+                String tit_carrera = carrera.getTit_carrera();
+                String fh_carrera = carrera.getFh_carrera();
+                double km = carrera.getKm();
+                double min = carrera.getMin();
+                int id_corredor = carrera.getId_corredor();
 
-            pst = cnn.prepareStatement(QUERY_updCarrera);
-            pst.setString(1, tit_carrera);
-            pst.setString(2, fh_carrera);
-            pst.setDouble(3, km);
-            pst.setDouble(4, min);
-            pst.setInt(5, id_corredor);
-            pst.setInt(6, id_carrera);
-            pst.executeUpdate();
-
+                pst.setString(1, tit_carrera);
+                pst.setString(2, fh_carrera);
+                pst.setDouble(3, km);
+                pst.setDouble(4, min);
+                pst.setInt(5, id_corredor);
+                pst.setInt(6, id_carrera);
+                pst.executeUpdate();
+                
+            } catch (SQLException | ClassNotFoundException ex) {
+                throw new RuntimeException("Error de SQL",ex);
+            }
         }
         
         
